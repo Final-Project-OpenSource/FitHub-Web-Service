@@ -3,12 +3,13 @@ package com.acme.backend.fithubpro.iam.domain.model.aggregates;
 import com.acme.backend.fithubpro.iam.domain.model.User;
 import com.acme.backend.fithubpro.iam.domain.repository.IUserRepository;
 import com.acme.backend.fithubpro.iam.domain.model.commands.SignUpCommand;
+import com.acme.backend.fithubpro.iam.domain.model.queries.GetUserQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class UserAggregate {
@@ -19,25 +20,22 @@ public class UserAggregate {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User signUp(String username, String password, Set<String> roles){
+    public User signUp(SignUpCommand command){
 
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRoles(roles);
+        user.setUsername(command.getUsername());
+        user.setPassword(passwordEncoder.encode(command.getPassword()));
+        user.setRoles(command.getRoles());
 
         return userRepository.save(user);
     }
 
-    public User signIn(String username, String password){
+    public User findUserByQuery(GetUserQuery query){
+        return userRepository.findByUsername(query.getUsername()).orElse(null);
+    }
 
-        User user = userRepository.findByUsername(username);
-
-        if(user != null && passwordEncoder.matches(password, user.getPassword())){
-            return user;
-        }
-
-        return null;
+    public List<User> listUsers(){
+        return userRepository.findAll();
     }
 
 }
