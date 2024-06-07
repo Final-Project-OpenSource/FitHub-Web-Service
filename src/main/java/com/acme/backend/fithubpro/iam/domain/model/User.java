@@ -4,12 +4,10 @@ import  javax.persistence.*;
 import java.util.Set;
 
 /**
- * <summary>
- *     The User entity represents a user in the system.
- *     The user has a unique username, a password, and a set of roles.
- *     The roles are stored as a set of strings.
- *     The roles field is an element collection of strings.
- * </summary>
+ * @summary
+ *    The User entity represents a user in the system.
+ *    The user has a unique username, a password, and a set of roles.
+ *    The roles are stored as a set of strings.
  */
 
 @Entity
