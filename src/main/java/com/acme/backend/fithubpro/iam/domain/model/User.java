@@ -1,5 +1,8 @@
 package com.acme.backend.fithubpro.iam.domain.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import  javax.persistence.*;
 import java.util.Set;
 
@@ -10,53 +13,42 @@ import java.util.Set;
  *    The roles are stored as a set of strings.
  */
 
+@Setter
+@Getter
 @Entity
 public class User {
+
+    /**
+     * @summary
+     *    The id of the user.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * @summary
+     *    The username of the user.
+     *    The username is stored as a string.
+     */
     @Column(nullable = false, unique = true)
     private String username;
 
+    /**
+     * @summary
+     *    The password of the user.
+     *    The password is stored as a string.
+     */
     @Column(nullable = false)
     private String password;
 
+    /**
+     * @summary
+     *    The roles of the user.
+     *    The roles are stored as a set of strings.
+     */
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles;
 
-    // Getters and setters
-
-    // Id is the primary key of the User entity
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    // Username is unique and cannot be null
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    // Password cannot be null
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    // Roles are stored as a set of strings
-    public Set<String> getRoles() {
-        return roles;
-    }
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
-    }
 
 }
