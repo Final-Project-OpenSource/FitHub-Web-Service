@@ -1,42 +1,65 @@
 package com.acme.backend.fithubpro.iam.interfaces.rest;
 
-import com.acme.backend.fithubpro.iam.application.internal.commandservices.UserCommandService;
-import com.acme.backend.fithubpro.iam.application.internal.queryservices.UserQueryService;
-import com.acme.backend.fithubpro.iam.domain.model.commands.SignUpCommand;
-import com.acme.backend.fithubpro.iam.domain.model.queries.GetUserQuery;
-import com.acme.backend.fithubpro.iam.interfaces.rest.resources.UserDTO;
-import com.acme.backend.fithubpro.iam.interfaces.rest.transform.UserTransformer;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.acme.backend.fithubpro.iam.domain.model.queries.GetAllUsersQuery;
+import com.acme.backend.fithubpro.iam.domain.model.queries.GetUserByIdQuery;
+import com.acme.backend.fithubpro.iam.domain.services.UserQueryService;
+import com.acme.backend.fithubpro.iam.interfaces.rest.resources.UserResource;
+import com.acme.backend.fithubpro.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping(value = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Users", description = "User Management Endpoints")
 public class UserController {
 
-    @Autowired
-    private UserCommandService userCommandService;
-
-    @Autowired
-    private UserQueryService userQueryService;
-
-    @GetMapping("/{username}")
-    public UserDTO getUser(@PathVariable String username){
-        return UserTransformer.toDTO(userQueryService.getUser(new GetUserQuery(username)));
+    private final UserQueryService userQueryService;
+    public UserController(UserQueryService userQueryService) {
+        this.userQueryService = userQueryService;
     }
 
-    @PostMapping
-    public UserDTO signUp(@RequestBody SignUpCommand command){
-        return UserTransformer.toDTO(userCommandService.signUp(command));
-    }
 
+
+    /**
+     * Get all users
+     * @return list of user resources
+     */
     @GetMapping
-    public List<UserDTO> listUsers(){
-        return userQueryService.listUsers().stream()
-                .map(UserTransformer::toDTO)
-                .collect(Collectors.toList());
+    public ResponseEntity<List<UserResource>> getAllUsers(){
+
+        var getAllUsersQuery = new GetAllUsersQuery();
+        var users= userQueryService.handle(getAllUsersQuery);
+        var userResources= users.stream().map(
+                UserResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(userResources);
     }
+
+
+
+    /**
+     * this method returns the user with the given id
+     * @param userId the user id
+     * @return the user resource with the given id
+     */
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<UserResource> getUserById(@PathVariable Long userId) {
+
+        var getUserByIdQuery = new GetUserByIdQuery(userId);
+        var user = userQueryService.handle(getUserByIdQuery);
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(
+                UserResourceFromEntityAssembler.toResourceFromEntity(user.get())
+        );
+
+    }
+
 }

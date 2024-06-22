@@ -1,13 +1,8 @@
 package com.acme.backend.fithubpro.iam.domain.model.commands;
 
-import java.util.Set;
+import com.acme.backend.fithubpro.iam.domain.model.entities.Role;
 
-/**
- * @param username Getters
- * @summary The SignUpCommand class represents a command to sign up a user.
- * The command contains the username, password, and roles of the user.
- */
+import java.util.List;
 
-
-public record SignUpCommand(String username, String password, Set<String> roles) {
+public record SignUpCommand(String username, String password, List<Role> roles) {
 }
