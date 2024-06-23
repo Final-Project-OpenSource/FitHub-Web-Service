@@ -33,8 +33,8 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     private String password;
 
     @NotBlank
-    @Size(max = 20)
-    private Long phoneNumber;
+    @Size(max = 50)
+    private String phoneNumber;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // Eager fetch to load the roles when loading the user
     @JoinTable(	name = "user_roles",
@@ -45,14 +45,14 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     public User() {
         this.roles = new HashSet<>();
     }
-    public User(String username, String password, Long phoneNumber) {
+    public User(String username, String password, String phoneNumber) {
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.roles = new HashSet<>();
     }
 
-    public User(String username, String password, Long phoneNumber ,List<Role> roles) {
+    public User(String username, String password, String phoneNumber ,List<Role> roles) {
         this(username, password, phoneNumber    );
         addRoles(roles);
     }
