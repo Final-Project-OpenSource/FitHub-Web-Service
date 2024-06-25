@@ -1,6 +1,7 @@
 package com.acme.backend.fithubpro.counseling.domain.services;
 
 import com.acme.backend.fithubpro.counseling.domain.model.aggregate.NutritionPlan;
+import com.acme.backend.fithubpro.counseling.domain.model.commands.CreateNutritionPlanCommand;
 import com.acme.backend.fithubpro.counseling.domain.model.queries.*;
 import org.springframework.stereotype.Service;
 
@@ -23,4 +24,6 @@ public interface NutritionPlanQueryService {
     Optional<NutritionPlan> handle(GetNutritionPlanByTitleAndGoalHealthQuery query);
 
     Optional<NutritionPlan> handle(GetNutritionPlanByIdQuery query);
+
+    Optional<NutritionPlan> handle(CreateNutritionPlanCommand query);
 }
