@@ -1,5 +1,6 @@
 package com.acme.backend.fithubpro.rutines.application.internal.commandservices;
 
+
 import com.acme.backend.fithubpro.rutines.domain.model.aggregate.Rutines;
 import com.acme.backend.fithubpro.rutines.domain.model.commands.CreateRutineCommand;
 import com.acme.backend.fithubpro.rutines.domain.services.RutinesCommandService;
@@ -18,6 +19,8 @@ public class RutinesCommandServiceImpl implements RutinesCommandService {
 
     @Override
     public Optional<Rutines> handle(CreateRutineCommand command) {
-        return Optional.empty();
+        var rutines = new Rutines(command);
+        var createdRutines = rutinesRepository.save(rutines);
+        return Optional.of(createdRutines);
     }
 }

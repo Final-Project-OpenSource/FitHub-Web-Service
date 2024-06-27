@@ -1,12 +1,7 @@
 package com.acme.backend.fithubpro.rutines.interfaces.rest.controller;
 
-import com.acme.backend.fithubpro.progress.domain.model.aggregate.Progress;
-import com.acme.backend.fithubpro.progress.domain.model.queries.GetAllProgressByClientIdQuery;
-import com.acme.backend.fithubpro.progress.interfaces.rest.resources.ProgressResource;
-import com.acme.backend.fithubpro.progress.interfaces.rest.transform.ProgressResourceFromEntityAssembler;
 import com.acme.backend.fithubpro.rutines.domain.model.aggregate.Rutines;
-import com.acme.backend.fithubpro.rutines.domain.model.queries.GetAllRutinesByIntructionQuery;
-import com.acme.backend.fithubpro.rutines.domain.model.queries.GetAllRutinesByexerciseQuery;
+import com.acme.backend.fithubpro.rutines.domain.model.queries.GetAllRutinesBynameQuery;
 import com.acme.backend.fithubpro.rutines.domain.model.queries.GetRutinesByIdQuery;
 import com.acme.backend.fithubpro.rutines.domain.services.RutinesCommandService;
 import com.acme.backend.fithubpro.rutines.domain.services.RutinesQueryService;
@@ -18,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -48,8 +42,8 @@ public class RutinesController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RutinesResource>> getProgressByClientId(@RequestParam String exercise) {
-        List<Rutines> rutines = rutinesQueryService.handle(new GetAllRutinesByexerciseQuery(exercise));
+    public ResponseEntity<List<RutinesResource>> getRutinesByName(@RequestParam String name) {
+        List<Rutines> rutines = rutinesQueryService.handle(new GetAllRutinesBynameQuery(name));
         if (rutines.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
