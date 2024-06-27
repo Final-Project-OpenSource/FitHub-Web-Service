@@ -1,5 +1,9 @@
 package com.acme.backend.fithubpro.rutines.interfaces.rest.controller;
 
+import com.acme.backend.fithubpro.progress.domain.model.aggregate.Progress;
+import com.acme.backend.fithubpro.progress.domain.model.queries.GetAllProgressByClientIdQuery;
+import com.acme.backend.fithubpro.progress.interfaces.rest.resources.ProgressResource;
+import com.acme.backend.fithubpro.progress.interfaces.rest.transform.ProgressResourceFromEntityAssembler;
 import com.acme.backend.fithubpro.rutines.domain.model.aggregate.Rutines;
 import com.acme.backend.fithubpro.rutines.domain.model.queries.GetAllRutinesByIntructionQuery;
 import com.acme.backend.fithubpro.rutines.domain.model.queries.GetAllRutinesByexerciseQuery;
@@ -29,40 +33,30 @@ public class RutinesController {
         this.rutinesCommandService = rutinesCommandService;
         this.rutinesQueryService = rutinesQueryService;
     }
-    
+
     @PostMapping
-    public ResponseEntity<RutinesResource> createRutines(@RequestBody CreateRutinesREsource resource){
+    public ResponseEntity<RutinesResource> createRutines(@RequestBody CreateRutinesREsource resource) {
         Optional<Rutines> rutines = rutinesCommandService.handle(CreateRutinescommandFromResourceAssembler.toCommandFromResource(resource));
         return rutines.map(source ->
-                new ResponseEntity<>(RutinesResourceFromEntityAssembler.toResourceFromEntity(source), CREATED)).orElseGet(()-> ResponseEntity.badRequest().build());
-    }
-    
-    @GetMapping("{id}")
-    public ResponseEntity<RutinesResource> getRutinesById(@PathVariable Long id){
-        Optional<Rutines> rutines = rutinesQueryService.handle(new GetRutinesByIdQuery(id));
-        return rutines.map(source -> ResponseEntity.ok(RutinesResourceFromEntityAssembler.toResourceFromEntity(source))).orElseGet(()->ResponseEntity.notFound().build());
+                new ResponseEntity<>(RutinesResourceFromEntityAssembler.toResourceFromEntity(source), CREATED)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    private ResponseEntity<List<RutinesResource>> buildResponse(List<Rutines> rutines){
-        if(rutines.isEmpty()){
+    @GetMapping("{id}")
+    public ResponseEntity<RutinesResource> getRutinesById(@PathVariable Long id) {
+        Optional<Rutines> rutines = rutinesQueryService.handle(new GetRutinesByIdQuery(id));
+        return rutines.map(source -> ResponseEntity.ok(RutinesResourceFromEntityAssembler.toResourceFromEntity(source))).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<RutinesResource>> getProgressByClientId(@RequestParam String exercise) {
+        List<Rutines> rutines = rutinesQueryService.handle(new GetAllRutinesByexerciseQuery(exercise));
+        if (rutines.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         var rutinesResources = rutines.stream()
                 .map(RutinesResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
         return ResponseEntity.ok(rutinesResources);
-    }
-    
-    private ResponseEntity<List<RutinesResource>> getAllRutinesByExercise(String exercise){
-        var getAllRutinesByExercise = new GetAllRutinesByexerciseQuery(exercise);
-        var rutines = rutinesQueryService.handle(getAllRutinesByExercise);
-        return buildResponse(rutines);
-    }
-
-    private ResponseEntity<List<RutinesResource>> getAllRutinesByInstruction(String instruction){
-        var getAllRutinesByInstruction = new GetAllRutinesByIntructionQuery(instruction);
-        var rutines = rutinesQueryService.handle(getAllRutinesByInstruction);
-        return buildResponse(rutines);
     }
 
 }

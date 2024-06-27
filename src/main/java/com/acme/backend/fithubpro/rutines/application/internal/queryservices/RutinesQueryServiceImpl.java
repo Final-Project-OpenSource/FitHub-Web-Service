@@ -16,12 +16,14 @@ public class RutinesQueryServiceImpl implements RutinesQueryService {
     private final RutinesRepository rutinesRepository;
 
     public RutinesQueryServiceImpl(RutinesRepository rutinesRepository) {
+
         this.rutinesRepository = rutinesRepository;
     }
 
     @Override
     public List<Rutines> handle(GetAllRutinesByexerciseQuery query) {
-        return null;
+
+        return rutinesRepository.findAllByExercise(query.exercise());
     }
 
     @Override
