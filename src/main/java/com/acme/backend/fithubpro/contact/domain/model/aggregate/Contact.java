@@ -1,13 +1,11 @@
 package com.acme.backend.fithubpro.contact.domain.model.aggregate;
 
 import com.acme.backend.fithubpro.counseling.domain.model.aggregate.BaseEntity;
-import com.acme.backend.fithubpro.profiles.domain.model.aggregate.Coach;
-import com.acme.backend.fithubpro.profiles.domain.model.aggregate.Member;
+import com.acme.backend.fithubpro.contact.domain.model.commands.CreateContactCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-@Setter
+
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -16,24 +14,29 @@ public class Contact extends BaseEntity<Contact> {
     @Column(nullable = false)
     private String message;
 
-    @OneToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @Column(nullable = false)
+    private Integer memberId;
 
-    @ManyToOne
-    @JoinColumn(name = "coach_id", nullable = false)
-    private Coach coach;
+    @Column(nullable = false)
+    private Integer coachId;
 
+    protected Contact() {}
+
+    public Contact(CreateContactCommand command) {
+        this.message = command.message();
+        this.memberId = command.memberId();
+        this.coachId = command.coachId();
+    }
 
     public void setMessage(String message) {
         this.message = message;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setMemberId(Integer memberId) {
+        this.memberId = memberId;
     }
 
-    public void setCoach(Coach coach) {
-        this.coach = coach;
+    public void setCoachId(Integer coachId) {
+        this.coachId = coachId;
     }
 }

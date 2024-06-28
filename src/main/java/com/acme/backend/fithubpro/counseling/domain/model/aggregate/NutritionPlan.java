@@ -3,10 +3,8 @@ package com.acme.backend.fithubpro.counseling.domain.model.aggregate;
 import com.acme.backend.fithubpro.counseling.domain.model.commands.CreateNutritionPlanCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Setter
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -54,4 +52,39 @@ public class NutritionPlan extends BaseEntity<NutritionPlan> {
         this.memberId = command.memberId();
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void setCalories(String calories) {
+        this.calories = calories;
+    }
+
+    public void setRestriction(String restriction) {
+        this.restriction = restriction;
+    }
+
+    public void setGoalHealth(String goalHealth) {
+        this.goalHealth = goalHealth;
+    }
+
+    public void setCoachId(Long coachId) {
+        this.coachId = coachId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
 }
