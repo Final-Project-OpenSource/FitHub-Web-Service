@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ProgressQueryService {
     List<Progress> handle(GetAllProgressByClientIdQuery query);
     Optional<Progress> handle(GetProgressByIdAndClientIdQuery query);
+    List<Progress> getProgressByClientIdAndCoachId(Integer clientId, Integer coachId);
 }

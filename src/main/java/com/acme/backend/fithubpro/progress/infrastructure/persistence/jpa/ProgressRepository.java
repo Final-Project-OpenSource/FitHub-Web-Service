@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ProgressRepository extends JpaRepository<Progress, Long> {
     List<Progress> findAllByClientId(Integer clientId);
     Optional<Progress> findByIdAndClientId(Long id, Integer clientId);
+    List<Progress> findAllByClientIdAndCoachId(Integer clientId, Integer coachId);
 }

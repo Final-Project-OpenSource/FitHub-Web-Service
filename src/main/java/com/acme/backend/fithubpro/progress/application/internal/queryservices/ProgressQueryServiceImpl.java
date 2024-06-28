@@ -28,4 +28,9 @@ public class ProgressQueryServiceImpl implements ProgressQueryService {
     public Optional<Progress> handle(GetProgressByIdAndClientIdQuery query) {
         return progressRepository.findByIdAndClientId(query.id(), query.clientId());
     }
+
+    @Override
+    public List<Progress> getProgressByClientIdAndCoachId(Integer clientId, Integer coachId) {
+        return progressRepository.findAllByClientIdAndCoachId(clientId, coachId);
+    }
 }
