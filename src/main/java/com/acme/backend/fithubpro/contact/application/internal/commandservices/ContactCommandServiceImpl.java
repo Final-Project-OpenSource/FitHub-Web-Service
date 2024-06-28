@@ -4,8 +4,9 @@ import com.acme.backend.fithubpro.contact.domain.model.aggregate.Contact;
 import com.acme.backend.fithubpro.contact.domain.model.commands.CreateContactCommand;
 import com.acme.backend.fithubpro.contact.domain.services.ContactCommandService;
 import com.acme.backend.fithubpro.contact.infrastructure.persistance.jpa.*;
-import com.acme.backend.fithubpro.counseling.infraestructure.persistance.jpa.MemberRepository;
-import com.acme.backend.fithubpro.counseling.infraestructure.persistance.jpa.CoachRepository;
+import com.acme.backend.fithubpro.profiles.infrastructure.persistence.jpa.*;
+import com.acme.backend.fithubpro.profiles.infrastructure.persistence.jpa.MemberRepository;
+import com.acme.backend.fithubpro.profiles.infrastructure.persistence.jpa.CoachRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

@@ -1,8 +1,8 @@
 package com.acme.backend.fithubpro.contact.domain.model.aggregate;
 
 import com.acme.backend.fithubpro.counseling.domain.model.aggregate.BaseEntity;
-import com.acme.backend.fithubpro.counseling.domain.model.aggregate.Coach;
-import com.acme.backend.fithubpro.counseling.domain.model.aggregate.Member;
+import com.acme.backend.fithubpro.profiles.domain.model.aggregate.Coach;
+import com.acme.backend.fithubpro.profiles.domain.model.aggregate.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

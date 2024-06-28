@@ -4,8 +4,8 @@ import com.acme.backend.fithubpro.progress.domain.model.aggregate.Progress;
 import com.acme.backend.fithubpro.progress.domain.model.commands.CreateProgressCommand;
 import com.acme.backend.fithubpro.progress.domain.services.ProgressCommandService;
 import com.acme.backend.fithubpro.progress.infrastructure.persistence.jpa.ProgressRepository;
-import com.acme.backend.fithubpro.counseling.infraestructure.persistance.jpa.MemberRepository;
-import com.acme.backend.fithubpro.counseling.infraestructure.persistance.jpa.CoachRepository;
+import com.acme.backend.fithubpro.profiles.infrastructure.persistence.jpa.MemberRepository;
+import com.acme.backend.fithubpro.profiles.infrastructure.persistence.jpa.CoachRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
