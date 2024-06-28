@@ -67,4 +67,9 @@ public class NutritionPlanQueryServiceImpl implements NutritionPlanQueryService 
     public List<NutritionPlan> getNutritionPlansByCoachId(Long coachId) {
         return nutritionPlanRepository.findAllByCoachId(coachId);
     }
+
+    @Override
+    public List<NutritionPlan> handle(GetAllNutritionPlanByCoachIdQuery query) {
+        return nutritionPlanRepository.findAllByCoachId(query.coachId().longValue());
+    }
 }

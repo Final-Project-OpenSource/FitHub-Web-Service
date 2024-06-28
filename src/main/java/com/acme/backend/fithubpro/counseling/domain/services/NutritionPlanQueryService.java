@@ -16,4 +16,5 @@ public interface NutritionPlanQueryService {
     Optional<NutritionPlan> handle(GetNutritionPlanByIdQuery query);
     List<NutritionPlan> getAllNutritionPlans();
     List<NutritionPlan> getNutritionPlansByCoachId(Long coachId);
+    List<NutritionPlan> handle(GetAllNutritionPlanByCoachIdQuery query);
 }
