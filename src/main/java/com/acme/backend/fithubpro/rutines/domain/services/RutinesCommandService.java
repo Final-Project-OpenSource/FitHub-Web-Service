@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface RutinesCommandService {
     Optional<Rutines> handle(CreateRutineCommand command);
+    Optional<Rutines> update(Long id, CreateRutineCommand command);
+    void delete(Long id);
 }

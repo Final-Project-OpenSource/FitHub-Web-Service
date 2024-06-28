@@ -27,15 +27,50 @@ public class Rutines extends BaseEntity<Rutines> {
     @Column(nullable = false)
     private String instruction;
 
-    protected Rutines(){
+    @Column(nullable = false)
+    private Long coachId;
 
+    @Column(nullable = true)
+    private Long memberId;
+
+    protected Rutines() {
     }
 
-    public Rutines (CreateRutineCommand command){
+    public Rutines(CreateRutineCommand command) {
         this.name = command.name();
         this.exercise = command.exercise();
         this.repetition = command.repetition();
         this.photo = command.photo();
         this.instruction = command.instruction();
+        this.coachId = command.coachId();
+        this.memberId = command.memberId();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setExercise(String exercise) {
+        this.exercise = exercise;
+    }
+
+    public void setRepetition(String repetition) {
+        this.repetition = repetition;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
+    }
+
+    public void setCoachId(Long coachId) {
+        this.coachId = coachId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 }

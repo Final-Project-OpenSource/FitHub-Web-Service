@@ -16,19 +16,38 @@ public class NutritionPlanCommandServiceImpl implements NutritionPlanCommandServ
     public NutritionPlanCommandServiceImpl(NutritionPlanRepository nutritionPlanRepository) {
         this.nutritionPlanRepository = nutritionPlanRepository;
     }
-    /**
-     * Handle the creation of a nutrition plan
-     * @param command - The command to create a nutrition plan
-     * @return an optional of the created nutrition plan
-     */
 
     @Override
     public Optional<NutritionPlan> handle(CreateNutritionPlanCommand command) {
-        if( nutritionPlanRepository.existsByTitleAndGoalHealth(command.title(), command.goalHealth())){
+        if (nutritionPlanRepository.existsByTitleAndGoalHealth(command.title(), command.goalHealth())) {
             throw new IllegalArgumentException("Nutrition plan with same title and goal health already exists");
         }
-        var nutritionPlan = new NutritionPlan(command);
-        var createdNutritionPlan = nutritionPlanRepository.save(nutritionPlan);
+        NutritionPlan nutritionPlan = new NutritionPlan(command);
+        NutritionPlan createdNutritionPlan = nutritionPlanRepository.save(nutritionPlan);
         return Optional.of(createdNutritionPlan);
+    }
+
+    @Override
+    public Optional<NutritionPlan> update(Long id, CreateNutritionPlanCommand command) {
+        Optional<NutritionPlan> existingNutritionPlan = nutritionPlanRepository.findById(id);
+        if (existingNutritionPlan.isPresent()) {
+            NutritionPlan nutritionPlan = existingNutritionPlan.get();
+            nutritionPlan.setTitle(command.title());
+            nutritionPlan.setPhoto(command.photo());
+            nutritionPlan.setDescription(command.description());
+            nutritionPlan.setIngredients(command.ingredients());
+            nutritionPlan.setCalories(command.calories());
+            nutritionPlan.setRestriction(command.restriction());
+            nutritionPlan.setGoalHealth(command.goalHealth());
+            nutritionPlan.setCoachId(command.coachId());
+            nutritionPlan.setMemberId(command.memberId());
+            return Optional.of(nutritionPlanRepository.save(nutritionPlan));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void delete(Long id) {
+        nutritionPlanRepository.deleteById(id);
     }
 }

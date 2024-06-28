@@ -57,4 +57,14 @@ public class NutritionPlanQueryServiceImpl implements NutritionPlanQueryService 
     public Optional<NutritionPlan> handle(GetNutritionPlanByIdQuery query) {
         return nutritionPlanRepository.findById(query.id());
     }
+
+    @Override
+    public List<NutritionPlan> getAllNutritionPlans() {
+        return nutritionPlanRepository.findAll();
+    }
+
+    @Override
+    public List<NutritionPlan> getNutritionPlansByCoachId(Long coachId) {
+        return nutritionPlanRepository.findAllByCoachId(coachId);
+    }
 }
