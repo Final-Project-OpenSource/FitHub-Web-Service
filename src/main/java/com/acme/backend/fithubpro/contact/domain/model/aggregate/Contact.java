@@ -24,7 +24,6 @@ public class Contact extends BaseEntity<Contact> {
     @JoinColumn(name = "coach_id", nullable = false)
     private Coach coach;
 
-}
 
     public void setMessage(String message) {
         this.message = message;
