@@ -6,8 +6,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Setter
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -46,31 +48,4 @@ public class Rutines extends BaseEntity<Rutines> {
         this.memberId = command.memberId();
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setExercise(String exercise) {
-        this.exercise = exercise;
-    }
-
-    public void setRepetition(String repetition) {
-        this.repetition = repetition;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public void setInstruction(String instruction) {
-        this.instruction = instruction;
-    }
-
-    public void setCoachId(Long coachId) {
-        this.coachId = coachId;
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
 }
