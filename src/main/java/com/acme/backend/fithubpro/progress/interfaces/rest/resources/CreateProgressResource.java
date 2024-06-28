@@ -2,7 +2,7 @@ package com.acme.backend.fithubpro.progress.interfaces.rest.resources;
 
 import java.time.LocalDateTime;
 
-public record CreateProgressResource(String content, LocalDateTime date, Integer clientId) {
+public record CreateProgressResource(String content, LocalDateTime date, Integer clientId, Integer coachId) {
 
     public CreateProgressResource {
         if (content == null || content.isBlank()) {
@@ -13,6 +13,9 @@ public record CreateProgressResource(String content, LocalDateTime date, Integer
         }
         if (clientId == null) {
             throw new IllegalArgumentException("Client ID must not be null.");
+        }
+        if (coachId == null) {
+            throw new IllegalArgumentException("Coach ID must not be null.");
         }
     }
 }

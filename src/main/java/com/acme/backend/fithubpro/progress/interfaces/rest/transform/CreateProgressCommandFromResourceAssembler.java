@@ -8,6 +8,6 @@ public final class CreateProgressCommandFromResourceAssembler {
     private CreateProgressCommandFromResourceAssembler() {}
 
     public static CreateProgressCommand toCommandFromResource(CreateProgressResource resource) {
-        return new CreateProgressCommand(resource.content(), resource.date(), resource.clientId());
+        return new CreateProgressCommand(resource.content(), resource.date(), resource.clientId(), resource.coachId());
     }
 }

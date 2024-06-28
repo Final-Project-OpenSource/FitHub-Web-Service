@@ -53,4 +53,28 @@ public class ProgressController {
                 .toList();
         return ResponseEntity.ok(progressResources);
     }
+
+    @GetMapping("/client/{clientId}/coach/{coachId}")
+    public ResponseEntity<List<ProgressResource>> getProgressByClientIdAndCoachId(@PathVariable Integer clientId, @PathVariable Integer coachId) {
+        List<Progress> progressList = progressQueryService.getProgressByClientIdAndCoachId(clientId, coachId);
+        if (progressList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        var progressResources = progressList.stream()
+                .map(ProgressResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+        return ResponseEntity.ok(progressResources);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<ProgressResource> updateProgress(@PathVariable Long id, @RequestBody CreateProgressResource resource) {
+        Optional<Progress> progress = progressCommandService.update(id, CreateProgressCommandFromResourceAssembler.toCommandFromResource(resource));
+        return progress.map(source -> ResponseEntity.ok(ProgressResourceFromEntityAssembler.toResourceFromEntity(source))).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteProgress(@PathVariable Long id) {
+        progressCommandService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

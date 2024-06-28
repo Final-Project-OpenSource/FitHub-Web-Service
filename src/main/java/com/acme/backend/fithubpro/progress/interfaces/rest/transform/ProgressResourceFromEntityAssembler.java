@@ -8,6 +8,6 @@ public final class ProgressResourceFromEntityAssembler {
     private ProgressResourceFromEntityAssembler() {}
 
     public static ProgressResource toResourceFromEntity(Progress entity) {
-        return new ProgressResource(entity.getId(), entity.getContent(), entity.getDate(), entity.getClientId());
+        return new ProgressResource(entity.getId(), entity.getContent(), entity.getDate(), entity.getClientId(), entity.getCoachId());
     }
 }
