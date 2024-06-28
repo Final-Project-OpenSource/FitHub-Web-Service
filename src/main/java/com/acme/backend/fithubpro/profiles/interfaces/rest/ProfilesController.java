@@ -6,8 +6,10 @@ import com.acme.backend.fithubpro.profiles.domain.services.ProfileCommandService
 import com.acme.backend.fithubpro.profiles.domain.services.ProfileQueryService;
 import com.acme.backend.fithubpro.profiles.interfaces.rest.resources.CreateProfileResource;
 import com.acme.backend.fithubpro.profiles.interfaces.rest.resources.ProfileResource;
+import com.acme.backend.fithubpro.profiles.interfaces.rest.resources.UpdateProfileResource;
 import com.acme.backend.fithubpro.profiles.interfaces.rest.transform.CreateProfileCommandFromResourceAssembler;
 import com.acme.backend.fithubpro.profiles.interfaces.rest.transform.ProfileResourceFromEntityAssembler;
+import com.acme.backend.fithubpro.profiles.interfaces.rest.transform.UpdateProfileCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -75,4 +77,23 @@ public class ProfilesController {
         var profileResources = profiles.stream().map(ProfileResourceFromEntityAssembler::toResourceFromEntity).collect(Collectors.toList());
         return ResponseEntity.ok(profileResources);
     }
+
+    @PutMapping("/{email}")
+    public ResponseEntity<ProfileResource> updateProfile(@PathVariable String email, @RequestBody UpdateProfileResource resource) {
+         if (!email.equals(resource.email())) {
+            return ResponseEntity.badRequest().build();
+        }
+        var updateProfileCommand = UpdateProfileCommandFromResourceAssembler.fromResource(resource);
+
+        var updatedProfile = profileCommandService.handle(updateProfileCommand);
+
+
+        if (updatedProfile.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        var updatedProfileResource = ProfileResourceFromEntityAssembler.toResourceFromEntity(updatedProfile.get());
+        return ResponseEntity.ok(updatedProfileResource);
+    }
+
 }
