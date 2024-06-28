@@ -1,6 +1,6 @@
 package com.acme.backend.fithubpro.contact.domain.model.commands;
 
-public record CreateContactCommand(String message, Integer memberId, Integer coachId) {
+public record CreateContactCommand(String message, Long memberId, Long coachId) {
 
     public CreateContactCommand {
         if (message == null || message.isBlank()) {

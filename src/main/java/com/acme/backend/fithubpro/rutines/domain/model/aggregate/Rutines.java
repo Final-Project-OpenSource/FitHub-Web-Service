@@ -1,12 +1,14 @@
 package com.acme.backend.fithubpro.rutines.domain.model.aggregate;
 
 import com.acme.backend.fithubpro.counseling.domain.model.aggregate.BaseEntity;
-import com.acme.backend.fithubpro.profiles.domain.model.aggregate.Coach;
-import com.acme.backend.fithubpro.profiles.domain.model.aggregate.Member;
+import com.acme.backend.fithubpro.profiles.domain.model.aggregates.Coach;
+import com.acme.backend.fithubpro.profiles.domain.model.aggregates.Member;
+import com.acme.backend.fithubpro.rutines.domain.model.commands.CreateRutineCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Setter
 @Getter
 @Entity
@@ -38,12 +40,12 @@ public class Rutines extends BaseEntity<Rutines> {
 
     protected Rutines() {}
 
-    public Rutines(CreateRutineCommand command, Coach coach) {
+    public Rutines(CreateRutineCommand command) {
         this.name = command.name();
         this.exercise = command.exercise();
         this.repetition = command.repetition();
         this.photo = command.photo();
         this.instruction = command.instruction();
-        this.coach = coach;
     }
+
 }

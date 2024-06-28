@@ -4,8 +4,8 @@ import com.acme.backend.fithubpro.rutines.domain.model.aggregate.Rutines;
 import com.acme.backend.fithubpro.rutines.domain.model.commands.CreateRutineCommand;
 import com.acme.backend.fithubpro.rutines.domain.services.RutinesCommandService;
 import com.acme.backend.fithubpro.rutines.infrastructure.persistance.jpa.RutinesRepository;
-import com.acme.backend.fithubpro.counseling.infrastructure.persistance.jpa.MemberRepository;
-import com.acme.backend.fithubpro.counseling.infrastructure.persistance.jpa.CoachRepository;
+import com.acme.backend.fithubpro.profiles.infrastructure.persistence.jpa.repositories.MemberRepository;
+import com.acme.backend.fithubpro.profiles.infrastructure.persistence.jpa.repositories.CoachRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -46,8 +46,15 @@ public class RutinesCommandServiceImpl implements RutinesCommandService {
             rutine.setRepetition(command.repetition());
             rutine.setPhoto(command.photo());
             rutine.setInstruction(command.instruction());
-            rutine.setCoachId(command.coachId());
-            rutine.setMemberId(command.memberId());
+
+            var member = memberRepository.findById(command.memberId())
+                    .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+            var coach = coachRepository.findById(command.coachId())
+                    .orElseThrow(() -> new IllegalArgumentException("Coach not found"));
+
+            rutine.setMember(member);
+            rutine.setCoach(coach);
+
             return Optional.of(rutinesRepository.save(rutine));
         }
         return Optional.empty();

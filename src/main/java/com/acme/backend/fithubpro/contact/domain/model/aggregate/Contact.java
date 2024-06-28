@@ -1,13 +1,13 @@
 package com.acme.backend.fithubpro.contact.domain.model.aggregate;
 
 import com.acme.backend.fithubpro.counseling.domain.model.aggregate.BaseEntity;
-import com.acme.backend.fithubpro.profiles.domain.model.aggregate.Coach;
-import com.acme.backend.fithubpro.profiles.domain.model.aggregate.Member;
+import com.acme.backend.fithubpro.profiles.domain.model.aggregates.Coach;
+import com.acme.backend.fithubpro.profiles.domain.model.aggregates.Member;
+import com.acme.backend.fithubpro.contact.domain.model.commands.CreateContactCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-@Setter
+
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -24,9 +24,12 @@ public class Contact extends BaseEntity<Contact> {
     @JoinColumn(name = "coach_id", nullable = false)
     private Coach coach;
 
+    protected Contact() {}
 
-    public void setMessage(String message) {
-        this.message = message;
+    public Contact(CreateContactCommand command) {
+        this.message = command.message();
+        this.member = null;
+        this.coach = null;
     }
 
     public void setMember(Member member) {

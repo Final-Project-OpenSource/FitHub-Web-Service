@@ -4,8 +4,8 @@ import com.acme.backend.fithubpro.progress.domain.model.aggregate.Progress;
 import com.acme.backend.fithubpro.progress.domain.model.commands.CreateProgressCommand;
 import com.acme.backend.fithubpro.progress.domain.services.ProgressCommandService;
 import com.acme.backend.fithubpro.progress.infrastructure.persistence.jpa.ProgressRepository;
-import com.acme.backend.fithubpro.profiles.infrastructure.persistence.jpa.MemberRepository;
-import com.acme.backend.fithubpro.profiles.infrastructure.persistence.jpa.CoachRepository;
+import com.acme.backend.fithubpro.profiles.infrastructure.persistence.jpa.repositories.MemberRepository;
+import com.acme.backend.fithubpro.profiles.infrastructure.persistence.jpa.repositories.CoachRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -45,8 +45,15 @@ public class ProgressCommandServiceImpl implements ProgressCommandService {
             Progress progress = existingProgress.get();
             progress.setContent(command.content());
             progress.setDate(command.date());
-            progress.setMemberId(command.memberId());
-            progress.setCoachId(command.coachId());
+
+            var member = memberRepository.findById(command.memberId())
+                    .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+            var coach = coachRepository.findById(command.coachId())
+                    .orElseThrow(() -> new IllegalArgumentException("Coach not found"));
+
+            progress.setMember(member);
+            progress.setCoach(coach);
+
             return Optional.of(progressRepository.save(progress));
         }
         return Optional.empty();
