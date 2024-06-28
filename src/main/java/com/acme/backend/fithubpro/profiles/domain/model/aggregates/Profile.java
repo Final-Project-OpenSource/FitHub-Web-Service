@@ -33,16 +33,18 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     private ProfileImageUrl profileImageUrl;
 
 
-    public Profile(String firstName, String lastName, String email, String street, String number, String city, String postalCode, String country) {
+    public Profile(String firstName, String lastName, String email, String street, String number, String city, String postalCode, String country, String profileImageUrl) {
         this.name = new PersonName(firstName, lastName);
         this.email = new EmailAddress(email);
         this.address = new StreetAddress(street, number, city, postalCode, country);
+        this.profileImageUrl = new ProfileImageUrl(profileImageUrl);
     }
 
     public Profile(CreateProfileCommand command) {
         this.name = new PersonName(command.firstName(), command.lastName());
         this.email = new EmailAddress(command.email());
         this.address = new StreetAddress(command.street(), command.number(), command.city(), command.postalCode(), command.country());
+        this.profileImageUrl = new ProfileImageUrl(command.profileImageUrl());
     }
 
     public Profile() {
@@ -60,6 +62,10 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
         this.address = new StreetAddress(street, number, city, postalCode, country);
     }
 
+    public void updateProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = new ProfileImageUrl(profileImageUrl);
+    }
+
     public String getFullName() {
         return name.getFullName();
     }
@@ -71,4 +77,6 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     public String getStreetAddress() {
         return address.getStreetAddress();
     }
+
+    public String getProfileImageUrl() { return profileImageUrl.url(); }
 }

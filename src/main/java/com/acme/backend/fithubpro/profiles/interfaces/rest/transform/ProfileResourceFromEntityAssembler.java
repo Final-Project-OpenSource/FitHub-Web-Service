@@ -5,6 +5,6 @@ import com.acme.backend.fithubpro.profiles.interfaces.rest.resources.ProfileReso
 
 public class ProfileResourceFromEntityAssembler {
     public static ProfileResource toResourceFromEntity(Profile entity) {
-        return new ProfileResource(entity.getId(), entity.getFullName(), entity.getEmailAddress(), entity.getStreetAddress());
+        return new ProfileResource(entity.getId(), entity.getFullName(), entity.getEmailAddress(), entity.getStreetAddress(), entity.getProfileImageUrl());
     }
 }
