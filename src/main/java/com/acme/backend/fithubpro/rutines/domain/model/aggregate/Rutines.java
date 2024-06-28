@@ -1,19 +1,18 @@
 package com.acme.backend.fithubpro.rutines.domain.model.aggregate;
 
 import com.acme.backend.fithubpro.counseling.domain.model.aggregate.BaseEntity;
-import com.acme.backend.fithubpro.rutines.domain.model.commands.CreateRutineCommand;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
+import com.acme.backend.fithubpro.profiles.domain.model.aggregate.Coach;
+import com.acme.backend.fithubpro.profiles.domain.model.aggregate.Member;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 @Setter
 @Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Rutines extends BaseEntity<Rutines> {
+
     @Column(nullable = false)
     private String name;
 
@@ -29,23 +28,22 @@ public class Rutines extends BaseEntity<Rutines> {
     @Column(nullable = false)
     private String instruction;
 
-    @Column(nullable = false)
-    private Long coachId;
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
-    @Column(nullable = true)
-    private Long memberId;
+    @ManyToOne
+    @JoinColumn(name = "coach_id", nullable = false)
+    private Coach coach;
 
-    protected Rutines() {
-    }
+    protected Rutines() {}
 
-    public Rutines(CreateRutineCommand command) {
+    public Rutines(CreateRutineCommand command, Coach coach) {
         this.name = command.name();
         this.exercise = command.exercise();
         this.repetition = command.repetition();
         this.photo = command.photo();
         this.instruction = command.instruction();
-        this.coachId = command.coachId();
-        this.memberId = command.memberId();
+        this.coach = coach;
     }
-
 }
