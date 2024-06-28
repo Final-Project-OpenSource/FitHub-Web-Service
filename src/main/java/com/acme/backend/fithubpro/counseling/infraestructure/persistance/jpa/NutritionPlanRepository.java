@@ -14,6 +14,7 @@ public interface NutritionPlanRepository extends JpaRepository<NutritionPlan, Lo
     List<NutritionPlan> findAllByCalories(String calories);
     List<NutritionPlan> findAllByIngredients(String ingredients);
     List<NutritionPlan> findAllByDescription(String description);
+    List<NutritionPlan> findAllByCoachId(Long coachId);
     boolean existsByTitleAndGoalHealth(String title, String goalHealth);
     Optional<NutritionPlan> findByTitleAndGoalHealth(String title, String goalHealth);
 }

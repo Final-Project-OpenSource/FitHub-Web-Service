@@ -1,8 +1,8 @@
 package com.acme.backend.fithubpro.rutines.application.internal.queryservices;
 
 import com.acme.backend.fithubpro.rutines.domain.model.aggregate.Rutines;
+import com.acme.backend.fithubpro.rutines.domain.model.queries.GetAllRutinesByExerciseQuery;
 import com.acme.backend.fithubpro.rutines.domain.model.queries.GetAllRutinesByIntructionQuery;
-import com.acme.backend.fithubpro.rutines.domain.model.queries.GetAllRutinesByexerciseQuery;
 import com.acme.backend.fithubpro.rutines.domain.model.queries.GetRutinesByIdQuery;
 import com.acme.backend.fithubpro.rutines.domain.services.RutinesQueryService;
 import com.acme.backend.fithubpro.rutines.infrastructure.persistance.jpa.RutinesRepository;
@@ -20,17 +20,27 @@ public class RutinesQueryServiceImpl implements RutinesQueryService {
     }
 
     @Override
-    public List<Rutines> handle(GetAllRutinesByexerciseQuery query) {
-        return null;
+    public List<Rutines> handle(GetAllRutinesByExerciseQuery query) {
+        return rutinesRepository.findAllByExercise(query.exercise());
     }
 
     @Override
     public List<Rutines> handle(GetAllRutinesByIntructionQuery query) {
-        return null;
+        return rutinesRepository.findAllByInstruction(query.instruction());
     }
 
     @Override
     public Optional<Rutines> handle(GetRutinesByIdQuery getRutinesByIdQuery) {
-        return Optional.empty();
+        return rutinesRepository.findById(getRutinesByIdQuery.id());
+    }
+
+    @Override
+    public List<Rutines> getAllRutines() {
+        return rutinesRepository.findAll();
+    }
+
+    @Override
+    public List<Rutines> getRutinesByCoachId(Long coachId) {
+        return rutinesRepository.findAllByCoachId(coachId);
     }
 }

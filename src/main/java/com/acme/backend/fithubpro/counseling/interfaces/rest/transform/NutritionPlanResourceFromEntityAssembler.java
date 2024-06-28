@@ -6,14 +6,14 @@ import com.acme.backend.fithubpro.counseling.interfaces.rest.resources.Nutrition
 public class NutritionPlanResourceFromEntityAssembler {
     public static NutritionPlanResource toResourceFromEntity(NutritionPlan entity) {
         return new NutritionPlanResource(
-            entity.getId(),
-            entity.getTitle(),
-            entity.getPhoto(),
-            entity.getDescription(),
-            entity.getIngredients(),
-            entity.getCalories(),
-            entity.getGoalHealth(),
-            entity.getRestriction()
+                entity.getId(),
+                entity.getTitle(),
+                entity.getPhoto(),
+                entity.getDescription(),
+                entity.getIngredients(),
+                entity.getCalories(),
+                entity.getGoalHealth(),
+                entity.getRestriction()
         );
     }
 }

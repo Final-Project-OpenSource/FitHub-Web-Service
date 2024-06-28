@@ -1,4 +1,3 @@
-// NutritionPlanController.java
 package com.acme.backend.fithubpro.counseling.interfaces.rest.controller;
 
 import com.acme.backend.fithubpro.counseling.domain.model.aggregate.NutritionPlan;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -45,32 +43,27 @@ public class NutritionPlanController {
     }
 
     @GetMapping
-    public ResponseEntity<List<NutritionPlanResource>> getNutritionPlansWithParameters(@RequestParam Map<String, String> parameters) {
-        if (parameters.containsKey("title") && parameters.containsKey("goalHealth")) {
-            var query = new GetNutritionPlanByTitleAndGoalHealthQuery(parameters.get("title"), parameters.get("goalHealth"));
-            Optional<NutritionPlan> nutritionPlan = nutritionPlanQueryService.handle(query);
-            return nutritionPlan.map(plan -> ResponseEntity.ok(List.of(NutritionPlanResourceFromEntityAssembler.toResourceFromEntity(plan)))).orElseGet(() -> ResponseEntity.notFound().build());
-        } else if (parameters.containsKey("title")) {
-            var query = new GetAllNutritionPlanByTitleQuery(parameters.get("title"));
-            return buildResponse(nutritionPlanQueryService.handle(query));
-        } else if (parameters.containsKey("goalHealth")) {
-            var query = new GetAllNutritionPlanByGoalHealthQuery(parameters.get("goalHealth"));
-            return buildResponse(nutritionPlanQueryService.handle(query));
-        } else if (parameters.containsKey("restriction")) {
-            var query = new GetAllNutritionPlanByRestrictionQuery(parameters.get("restriction"));
-            return buildResponse(nutritionPlanQueryService.handle(query));
-        } else if (parameters.containsKey("calories")) {
-            var query = new GetAllNutritionPlanByCaloriesQuery(parameters.get("calories"));
-            return buildResponse(nutritionPlanQueryService.handle(query));
-        } else if (parameters.containsKey("ingredients")) {
-            var query = new GetAllNutritionPlanByIngredientsQuery(parameters.get("ingredients"));
-            return buildResponse(nutritionPlanQueryService.handle(query));
-        } else if (parameters.containsKey("description")) {
-            var query = new GetAllNutritionPlanByDescriptionQuery(parameters.get("description"));
-            return buildResponse(nutritionPlanQueryService.handle(query));
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<List<NutritionPlanResource>> getAllNutritionPlans() {
+        List<NutritionPlan> nutritionPlans = nutritionPlanQueryService.getAllNutritionPlans();
+        return buildResponse(nutritionPlans);
+    }
+
+    @GetMapping("/coach/{coachId}")
+    public ResponseEntity<List<NutritionPlanResource>> getNutritionPlansByCoachId(@PathVariable Long coachId) {
+        List<NutritionPlan> nutritionPlans = nutritionPlanQueryService.getNutritionPlansByCoachId(coachId);
+        return buildResponse(nutritionPlans);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<NutritionPlanResource> updateNutritionPlan(@PathVariable Long id, @RequestBody CreateNutritionPlanResource resource) {
+        Optional<NutritionPlan> nutritionPlan = nutritionPlanCommandService.update(id, CreateNutritionPlanCommandFromResourceAssembler.toCommandFromResource(resource));
+        return nutritionPlan.map(plan -> ResponseEntity.ok(NutritionPlanResourceFromEntityAssembler.toResourceFromEntity(plan))).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteNutritionPlan(@PathVariable Long id) {
+        nutritionPlanCommandService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     private ResponseEntity<List<NutritionPlanResource>> buildResponse(List<NutritionPlan> nutritionPlans) {

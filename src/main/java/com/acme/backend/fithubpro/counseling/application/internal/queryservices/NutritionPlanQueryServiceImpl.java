@@ -1,7 +1,6 @@
 package com.acme.backend.fithubpro.counseling.application.internal.queryservices;
 
 import com.acme.backend.fithubpro.counseling.domain.model.aggregate.NutritionPlan;
-import com.acme.backend.fithubpro.counseling.domain.model.commands.CreateNutritionPlanCommand;
 import com.acme.backend.fithubpro.counseling.domain.model.queries.*;
 import com.acme.backend.fithubpro.counseling.domain.services.NutritionPlanQueryService;
 import com.acme.backend.fithubpro.counseling.infraestructure.persistance.jpa.NutritionPlanRepository;
@@ -60,12 +59,12 @@ public class NutritionPlanQueryServiceImpl implements NutritionPlanQueryService 
     }
 
     @Override
-    public Optional<NutritionPlan> handle(CreateNutritionPlanCommand command) {
-        if (nutritionPlanRepository.existsByTitleAndGoalHealth(command.title(), command.goalHealth())) {
-            throw new IllegalArgumentException("Nutrition plan with same title and goal health already exists");
-        }
-        NutritionPlan nutritionPlan = new NutritionPlan(command);
-        NutritionPlan createdNutritionPlan = nutritionPlanRepository.save(nutritionPlan);
-        return Optional.of(createdNutritionPlan);
+    public List<NutritionPlan> getAllNutritionPlans() {
+        return nutritionPlanRepository.findAll();
+    }
+
+    @Override
+    public List<NutritionPlan> getNutritionPlansByCoachId(Long coachId) {
+        return nutritionPlanRepository.findAllByCoachId(coachId);
     }
 }

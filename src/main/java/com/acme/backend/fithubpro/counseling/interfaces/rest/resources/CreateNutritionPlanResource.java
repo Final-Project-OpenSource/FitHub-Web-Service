@@ -1,6 +1,6 @@
 package com.acme.backend.fithubpro.counseling.interfaces.rest.resources;
 
-public record CreateNutritionPlanResource(String title, String photo, String description, String ingredients, String calories, String goalHealth, String restriction) {
+public record CreateNutritionPlanResource(String title, String photo, String description, String ingredients, String calories, String goalHealth, String restriction, Long coachId, Long memberId) {
 
     public CreateNutritionPlanResource {
         if (title == null || title.isBlank()) {
@@ -25,6 +25,4 @@ public record CreateNutritionPlanResource(String title, String photo, String des
             throw new IllegalArgumentException("Restriction must not be null or empty.");
         }
     }
-
 }
-

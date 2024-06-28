@@ -5,6 +5,6 @@ import com.acme.backend.fithubpro.counseling.interfaces.rest.resources.CreateNut
 
 public class CreateNutritionPlanCommandFromResourceAssembler {
     public static CreateNutritionPlanCommand toCommandFromResource(CreateNutritionPlanResource resource) {
-        return new CreateNutritionPlanCommand(resource.title(), resource.photo(), resource.description(), resource.ingredients(), resource.calories(), resource.goalHealth(), resource.restriction());
+        return new CreateNutritionPlanCommand(resource.title(), resource.photo(), resource.description(), resource.ingredients(), resource.calories(), resource.goalHealth(), resource.restriction(), resource.coachId(), resource.memberId());
     }
 }

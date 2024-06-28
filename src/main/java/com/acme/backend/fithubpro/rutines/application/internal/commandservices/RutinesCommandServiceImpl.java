@@ -18,6 +18,29 @@ public class RutinesCommandServiceImpl implements RutinesCommandService {
 
     @Override
     public Optional<Rutines> handle(CreateRutineCommand command) {
+        Rutines rutines = new Rutines(command);
+        return Optional.of(rutinesRepository.save(rutines));
+    }
+
+    @Override
+    public Optional<Rutines> update(Long id, CreateRutineCommand command) {
+        Optional<Rutines> existingRutine = rutinesRepository.findById(id);
+        if (existingRutine.isPresent()) {
+            Rutines rutine = existingRutine.get();
+            rutine.setName(command.name());
+            rutine.setExercise(command.exercise());
+            rutine.setRepetition(command.repetition());
+            rutine.setPhoto(command.photo());
+            rutine.setInstruction(command.instruction());
+            rutine.setCoachId(command.coachId());
+            rutine.setMemberId(command.memberId());
+            return Optional.of(rutinesRepository.save(rutine));
+        }
         return Optional.empty();
+    }
+
+    @Override
+    public void delete(Long id) {
+        rutinesRepository.deleteById(id);
     }
 }

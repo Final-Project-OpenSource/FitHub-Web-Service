@@ -1,6 +1,6 @@
 package com.acme.backend.fithubpro.counseling.domain.model.commands;
 
-public record CreateNutritionPlanCommand(String title, String photo, String description, String ingredients, String calories, String goalHealth, String restriction) {
+public record CreateNutritionPlanCommand(String title, String photo, String description, String ingredients, String calories, String goalHealth, String restriction, Long coachId, Long memberId) {
 
     public CreateNutritionPlanCommand {
         if (title == null || title.isBlank()) {
@@ -23,6 +23,9 @@ public record CreateNutritionPlanCommand(String title, String photo, String desc
         }
         if (restriction == null || restriction.isBlank()) {
             throw new IllegalArgumentException("Restriction must not be null or empty.");
+        }
+        if (coachId == null) {
+            throw new IllegalArgumentException("CoachId must not be null.");
         }
     }
 }

@@ -8,4 +8,5 @@ import java.util.List;
 public interface RutinesRepository extends JpaRepository<Rutines, Long> {
     List<Rutines> findAllByExercise(String exercise);
     List<Rutines> findAllByInstruction(String instruction);
+    List<Rutines> findAllByCoachId(Long coachId);
 }

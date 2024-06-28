@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface NutritionPlanCommandService {
     Optional<NutritionPlan> handle(CreateNutritionPlanCommand command);
+    Optional<NutritionPlan> update(Long id, CreateNutritionPlanCommand command);
+    void delete(Long id);
 }
